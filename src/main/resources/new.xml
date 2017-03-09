@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<config>
+	<classification>stock</classification>
+	<type>mysql</type>
+	<patterns>
+		<pattern>
+			<GID>date_period</GID>
+			<rules>
+				<rule>
+					<formular>date_time	datebefore	arabic_number	day</formular>
+					<matches>
+						<match>
+							<condition>true</condition>
+							<key>datebefore</key>
+							<value>'publish_date'</value>
+							<operator>'>'</operator>
+						</match>
+						<match>
+							<condition>true</condition>
+							<key>number</key>
+							<value>arabic_number</value>
+							<operator>'='</operator>
+						</match>
+					</matches>
+				</rule>
+				<rule>
+					<formular>date_time	period	date_time</formular>
+					<matches>
+						<match>
+							<condition>first</condition>
+							<key></key>
+							<value></value>
+							<operator></operator>
+						</match>
+					</matches>
+				</rule>
+			</rules>
+		</pattern>
+		<pattern>
+			<GID>1054</GID>
+			<rules>
+				<rule>
+					<formular>report_financial_semiannual</formular>
+					<matches>
+						<match>
+							<condition>true</condition>
+							<key>category</key>
+							<value>'财务披露'</value>
+							<operator>'='</operator>
+						</match>
+						<match>
+							<condition>true</condition>
+							<key>subcategory</key>
+							<value>'半年报'</value>
+							<operator>'='</operator>
+						</match>
+						<match>
+							<condition>year!=null</condition>
+							<key>year</key>
+							<value>year</value>
+							<operator>'='</operator>
+						</match>
+					</matches>
+				</rule>
+			</rules>
+		</pattern>
+	</patterns>
+</config>
