@@ -56,5 +56,21 @@ public class FileReader {
 		}
 		return names;
 	}
+
+	public static List<String> loadListFile(String fileName, String encodings) {
+		List<String> lines = new LinkedList<String>();
+		String data = "";
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					ClassLoader.getSystemClassLoader().getResourceAsStream(fileName), encodings));
+			while ((data = br.readLine()) != null)
+				if (data.length() > 0)
+					lines.add(data);
+			br.close();
+		} catch (Exception e) {
+			logger.info("Error: " + e.toString());
+		}
+		return lines;
+	}
 	
 }

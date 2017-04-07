@@ -19,21 +19,21 @@ public class HttpClientConnectionPool {
 	private static ThreadSafeClientConnManager cm = null;
 	
 	static {
-		//初始化SchemeRegistry,设置访问协议
-		//Scheme类表示一个协议方案，例如"http"或者"https"和包含许多的协议属性，
-		//例如缺省的端口和socket工厂常用于为指定的协议创建java.net.Socket实例，SchemeRegistry类被用来维护一个Schemes的集合
+		//锟斤拷始锟斤拷SchemeRegistry,锟斤拷锟矫凤拷锟斤拷协锟斤拷
+		//Scheme锟斤拷锟绞疽伙拷锟叫拷榉斤拷锟斤拷锟斤拷锟斤拷锟?"http"锟斤拷锟斤拷"https"锟酵帮拷锟斤拷锟斤拷锟斤拷协锟斤拷锟斤拷锟皆ｏ拷
+		//锟斤拷锟斤拷缺省锟侥端口猴拷socket锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷为指锟斤拷锟斤拷协锟介创锟斤拷java.net.Socket实锟斤拷锟斤拷SchemeRegistry锟洁被锟斤拷锟斤拷维锟斤拷一锟斤拷Schemes锟侥硷拷锟斤拷
 		SchemeRegistry schemeRegistry = new SchemeRegistry();  
 		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 		schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
         cm = new ThreadSafeClientConnManager(schemeRegistry);  
         try {
-        	//设置最大连接数
+        	//锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟?
             int maxTotal = 100;  
             cm.setMaxTotal(maxTotal);
         } catch (NumberFormatException e) {
         	e.printStackTrace();
         }  
-        //每条通道的并发连接数设置（连接池）  
+        //每锟斤拷通锟斤拷锟侥诧拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟矫ｏ拷锟斤拷锟接池ｏ拷  
         try {  
             int defaultMaxConnection = 50;  
             cm.setDefaultMaxPerRoute(defaultMaxConnection);  
@@ -43,19 +43,19 @@ public class HttpClientConnectionPool {
 	}
 	
     public static HttpClient getHttpClient() {
-    	//初始化HttpParams，设置组件参数
-    	//HttpParams接口代表一个不可改变值的集合，定义一个组件运行时行为。代表一个对象集合，该集合是一个键到值的映射。
-    	//HttpParams作用是定义其他组件的行为，一般每个复杂的组件都有它自己的HttpParams对象。
+    	//锟斤拷始锟斤拷HttpParams锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟?
+    	//HttpParams锟接口达拷锟斤拷一锟斤拷锟斤拷锟缴改憋拷值锟侥硷拷锟较ｏ拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷锟斤拷锟绞憋拷锟轿拷锟斤拷锟斤拷锟揭伙拷锟斤拷锟斤拷蠹希锟斤拷眉锟斤拷锟斤拷锟揭伙拷锟斤拷锟斤拷锟街碉拷锟接筹拷洹?
+    	//HttpParams锟斤拷锟斤拷锟角讹拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟轿拷锟揭伙拷锟矫匡拷锟斤拷锟斤拷拥锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟皆硷拷锟斤拷HttpParams锟斤拷锟斤拷
         HttpParams params = new BasicHttpParams();
-        // HTTP 协议的版本,1.1/1.0/0.9
+        // HTTP 协锟斤拷陌姹?,1.1/1.0/0.9
         params.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
         params.setParameter(CoreProtocolPNames.USER_AGENT, "HttpComponents/1.1");
         params.setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, true);
         params.setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "utf-8");
         params.setParameter(CoreProtocolPNames.HTTP_ELEMENT_CHARSET, "utf-8");
-        //设置ConnectionTimeout超时时间,ReadTimeOut超时时间,3000ms
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 3000);
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, 3000);
+        //锟斤拷锟斤拷ConnectionTimeout锟斤拷时时锟斤拷,ReadTimeOut锟斤拷时时锟斤拷,3000ms
+        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 30000);
+        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, 30000);
         return new DefaultHttpClient(cm, params);  
     }  
   

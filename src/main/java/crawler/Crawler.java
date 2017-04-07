@@ -14,7 +14,13 @@ public class Crawler {
 	
 	public static List<String> get(String url, List<String> parserXpathList){
 		List<String> contents = new ArrayList<String>();
-    	String toParseHtml = HttpGetter.getInstance().crawl(url, "gbk");
+    	String toParseHtml = null;
+		try {
+			toParseHtml = HttpGetter.getInstance().crawl(url, "gbk");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	    try {
 		    Parser thisParser = new Parser();
 			thisParser.initialize(toParseHtml);

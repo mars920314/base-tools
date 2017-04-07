@@ -34,31 +34,31 @@ public class HttpPoster extends HttpBase {
     	return HttpPosterHolder.instance;
     }
     
-    public Map<String, String> crawl(String url, String requestBody, String encoding){
+    public Map<String, String> crawl(String url, String requestBody, String encoding) throws Exception {
     	if(encoding==null)
     		encoding = default_encoding;
     	return Query(getClient(null), url, requestBody, encoding);
     }
 
-    public Map<String, String> crawl(String url, String siteKey, String requestBody, String encoding){
+    public Map<String, String> crawl(String url, String siteKey, String requestBody, String encoding) throws Exception {
     	if(encoding==null)
     		encoding = default_encoding;
     	return Query(getClient(siteKey), url, requestBody, encoding);
     }
     
-    public Map<String, String> crawl(String url, Map<String, String> params, String encoding){
+    public Map<String, String> crawl(String url, Map<String, String> params, String encoding) throws Exception {
     	if(encoding==null)
     		encoding = default_encoding;
     	return Query(getClient(null), url, new HashMap<String, String>(), params, encoding);
     }
 
-    public Map<String, String> crawl(String url, String siteKey, Map<String, String> params, String encoding){
+    public Map<String, String> crawl(String url, String siteKey, Map<String, String> params, String encoding) throws Exception {
     	if(encoding==null)
     		encoding = default_encoding;
     	return Query(getClient(siteKey), url, new HashMap<String, String>(), params, encoding);
     }
     
-    protected Map<String, String> Query(HttpClient client, String url, String params, String encoding) {
+    protected Map<String, String> Query(HttpClient client, String url, String params, String encoding)  throws Exception {
         Map<String, String> responseMap = new HashMap<String, String>();
         HttpPost postMethod = new HttpPost(url);
         try {
@@ -82,7 +82,7 @@ public class HttpPoster extends HttpBase {
         return responseMap;
     }
     
-    protected Map<String, String> Query(HttpClient client, String url, Map<String, String> headers, Map<String, String> params, String encoding) {
+    protected Map<String, String> Query(HttpClient client, String url, Map<String, String> headers, Map<String, String> params, String encoding)  throws Exception {
         Map<String, String> responseMap = new HashMap<String, String>();
         HttpPost postMethod = new HttpPost(url);
         List<NameValuePair> payload = new ArrayList<NameValuePair>();

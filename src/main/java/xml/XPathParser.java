@@ -32,8 +32,8 @@ public class XPathParser {
 	}
 
 	/**
-	 * ¹¹Ôìº¯Êı
-	 * @param xml	xmlÎÄ¼şÂ·¾¶
+	 * æ„é€ å‡½æ•°
+	 * @param xml	xmlæ–‡ä»¶è·¯å¾„
 	 */
 	public XPathParser(String xml) {
 		this();
@@ -41,8 +41,8 @@ public class XPathParser {
 	}
 
 	/**
-	 * ¹¹Ôìº¯Êı
-	 * @param reader	xmlÎÄ¼şµÄReaderÁ÷
+	 * æ„é€ å‡½æ•°
+	 * @param reader	xmlæ–‡ä»¶çš„Readeræµ
 	 */
 	public XPathParser(Reader reader) {
 		this();
@@ -50,8 +50,8 @@ public class XPathParser {
 	}
 
 	/**
-	 * ¹¹Ôìº¯Êı
-	 * @param inputStream	xmlÎÄ¼şµÄinputStreamÁ÷
+	 * æ„é€ å‡½æ•°
+	 * @param inputStream	xmlæ–‡ä»¶çš„inputStreamæµ
 	 */
 	public XPathParser(InputStream inputStream) {
 		this();
@@ -59,8 +59,8 @@ public class XPathParser {
 	}
 
 	/**
-	 * ¹¹Ôìº¯Êı
-	 * @param document	xmlÎÄ¼şÉú³ÉµÄDocument
+	 * æ„é€ å‡½æ•°
+	 * @param document	xmlæ–‡ä»¶ç”Ÿæˆçš„Document
 	 */
 	public XPathParser(Document document) {
 		this();
@@ -187,4 +187,21 @@ public class XPathParser {
 		}
 	}
 
+	public static void main(String[] args){
+		XPathParser parser = new XPathParser("/new.xml");
+		String classification = parser.evalString("classification");
+		String type = parser.evalString("type");
+		for(XNode node : parser.evalNode("patterns").getChildren()){
+			ReadPattern(node);
+		}
+	}
+
+	public static void ReadPattern(XNode pattern){
+		String GID = pattern.evalString("GID");
+		for(XNode rule : pattern.evalNode("rules").getChildren()){
+			String formular = pattern.evalString("formular");
+			
+		}
+	}
+	
 }

@@ -2,7 +2,7 @@ package segment;
 
 import java.util.List;
 
-import utils.FileReader;
+import file.FileReader;
 
 public abstract class BaseSegment {
 	

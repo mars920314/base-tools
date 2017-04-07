@@ -24,23 +24,23 @@ public class HttpGetter extends HttpBase{
     	return HttpGetterHolder.instance;
     }
     
-    public String crawl(String url, String encode){
+    public String crawl(String url, String encode) throws Exception {
     	return Query(getClient(null), url, encode, null);
     }
     
-    public String crawl(String url, String encode, String siteKey) {
+    public String crawl(String url, String encode, String siteKey) throws Exception {
     	return Query(getClient(siteKey), url, encode, null);
     }
     
-    public String crawl(String url, String encode, ResponseHandler<?> handler){
+    public String crawl(String url, String encode, ResponseHandler<?> handler) throws Exception {
     	return Query(getClient(null), url, encode, handler);
     }
     
-    public String crawl(String url, String encode, String siteKey, ResponseHandler<?> handler) {
+    public String crawl(String url, String encode, String siteKey, ResponseHandler<?> handler) throws Exception {
     	return Query(getClient(siteKey), url, encode, handler);
     }
     
-    protected String Query(HttpClient client, String url, String encode, ResponseHandler<?> handler){
+    protected String Query(HttpClient client, String url, String encode, ResponseHandler<?> handler) throws Exception {
     	synchronized (client){
             HttpGet getMethod = constructRequestMethod(url);
             try {
@@ -61,6 +61,8 @@ public class HttpGetter extends HttpBase{
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             } finally {
                 getMethod.releaseConnection();
             }
@@ -80,7 +82,7 @@ public class HttpGetter extends HttpBase{
         return null;
     }
     
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception{
     	String result = HttpGetter.getInstance().crawl("http://www.iteye.com/topic/1130585", "utf-8");
     	System.out.println(result);
     }

@@ -28,15 +28,15 @@ public class HttpHeader extends HttpBase {
     	return HttpHeaderHolder.instance;
     }
     
-    public Map<String, String> crawl(String url, String headerName){
+    public Map<String, String> crawl(String url, String headerName) throws Exception {
     	return Query(getClient(null), url, headerName);
     }
     
-    public Map<String, String> crawl(String url, String siteKey, String headerName){
+    public Map<String, String> crawl(String url, String siteKey, String headerName) throws Exception {
     	return Query(getClient(siteKey), url, headerName);
     }
 
-	protected Map<String, String> Query(HttpClient client, String url, String headerName) {
+	protected Map<String, String> Query(HttpClient client, String url, String headerName) throws Exception {
 		synchronized (client){
 	    	Map<String, String> results = new HashMap<String, String>();
 			HttpHead headMethod = constructRequestMethod(url);
@@ -58,6 +58,8 @@ public class HttpHeader extends HttpBase {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             } finally {
                 headMethod.releaseConnection();
             }
@@ -77,7 +79,7 @@ public class HttpHeader extends HttpBase {
         return null;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception{
     	Map<String, String> result = HttpHeader.getInstance().crawl("http://www.iteye.com/topic/1130585", HttpHeaders.CONTENT_LENGTH);
     	System.out.println(result.get("statusCode"));
     }
