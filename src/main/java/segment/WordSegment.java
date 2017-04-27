@@ -1,11 +1,8 @@
 package segment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class WordSegment {
-	
-	private static List<String> userLibraryPathDefault = new ArrayList<String>();
+	//fold is accepted, but only file end with .dict is accepted
+	private static String userLibraryPathDefault;
 
 	private static BaseSegment segment;
 	
@@ -29,11 +26,11 @@ public class WordSegment {
 		return segment;
 	}
 
-	public static List<String> getUserLibraryPathDefault() {
+	public static String getUserLibraryPathDefault() {
 		return userLibraryPathDefault;
 	}
 
-	public static void setUserLibraryPathDefault(List<String> userLibraryPathDefault) {
+	public static void setUserLibraryPathDefault(String userLibraryPathDefault) {
 		WordSegment.userLibraryPathDefault = userLibraryPathDefault;
 		if(WordSegment.segment!=null){
 			WordSegment.segment.addUserLibraryPath(userLibraryPathDefault);

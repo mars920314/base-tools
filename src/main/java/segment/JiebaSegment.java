@@ -1,5 +1,6 @@
 package segment;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import java.util.List;
 
 import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.huaban.analysis.jieba.JiebaSegmenter.SegMode;
+
+import file.FileReader;
 
 import com.huaban.analysis.jieba.SegToken;
 import com.huaban.analysis.jieba.WordDictionary;
@@ -24,9 +27,10 @@ public class JiebaSegment extends BaseSegment {
     }
 	
 	@Override
-	public void addUserLibraryPath(List<String> userLibraryPath) {
-		for(String libraryPath : userLibraryPath){
-			Path userDict = Paths.get(libraryPath);
+	public void addUserLibraryPath(String userLibraryPath) {
+		List<File> files = FileReader.listAllFilesWithFormat(userLibraryPath, ".dict");
+		for(File file : files){
+			Path userDict = Paths.get(file.getAbsolutePath());
 			WordDictionary.getInstance().loadUserDict(userDict);
 		}
 	}

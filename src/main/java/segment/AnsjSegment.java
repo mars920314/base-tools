@@ -25,7 +25,7 @@ public class AnsjSegment extends BaseSegment {
     }
 	
 	public void init(){
-		//ÓĞÅäÖÃµÄ³õÊ¼»¯¹ı³Ì
+		//æœ‰é…ç½®çš„åˆå§‹åŒ–è¿‡ç¨‹
 		if(true){//NER
 			MyStaticValue.isNameRecognition=true;
 			MyStaticValue.isNumRecognition=true;
@@ -34,8 +34,8 @@ public class AnsjSegment extends BaseSegment {
 	}
 
 	/**
-	 * ·Ö´ÊÄ¬ÈÏ°Ñ´óĞ´¶¼×ª»»ÎªĞ¡Ğ´ÁË.ËùÒÔÌí¼ÓĞÂ´ÊµÄÊ±ºòÒªÇó±ØĞëÊÇĞ¡Ğ´
-	 * ×ÖµäÎÄ¼ş¸ñÊ½Îª´ÊÓï£¬´ÊĞÔ£¬´ÊÆµ
+	 * åˆ†è¯é»˜è®¤æŠŠå¤§å†™éƒ½è½¬æ¢ä¸ºå°å†™äº†.æ‰€ä»¥æ·»åŠ æ–°è¯çš„æ—¶å€™è¦æ±‚å¿…é¡»æ˜¯å°å†™
+	 * å­—å…¸æ–‡ä»¶æ ¼å¼ä¸ºè¯è¯­ï¼Œè¯æ€§ï¼Œè¯é¢‘
 	 */
 	@Override
 	public void addDynamicWord(String[] words){
@@ -91,7 +91,7 @@ public class AnsjSegment extends BaseSegment {
         }
         else if (model == 1) {
             parsedTermList = ToAnalysis.parse(content);
-        }//NLP·Ö´Ê£¬»áÖ´ĞĞÈ«²¿ÃüÃûÊµÌåÊ¶±ğºÍ´ÊĞÔ±ê×¢
+        }//NLPåˆ†è¯ï¼Œä¼šæ‰§è¡Œå…¨éƒ¨å‘½åå®ä½“è¯†åˆ«å’Œè¯æ€§æ ‡æ³¨
         else if (model == 2) {
             parsedTermList = NlpAnalysis.parse(content);
         }

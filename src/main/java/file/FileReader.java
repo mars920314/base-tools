@@ -8,6 +8,7 @@ import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +72,54 @@ public class FileReader {
 			logger.info("Error: " + e.toString());
 		}
 		return lines;
+	}
+	
+	public static List<File> listAllFilesWithFormat(String foldName, String includePostfix) {
+		if (foldName == null) {
+			logger.error("Loading dict occurs an error.");
+			return null;
+		}
+		Queue<File> filePathQueue = new LinkedList<File>();
+		List<File> fileList = new LinkedList<File>();
+		filePathQueue.offer(new File(foldName));
+		while (!filePathQueue.isEmpty()) {
+			File file = filePathQueue.poll();
+			if (!file.exists())
+				continue;
+			if (file.isDirectory()) {
+				File[] fileArray = file.listFiles();
+				assert fileArray != null;
+				for (File subFile : fileArray)
+					if (subFile.getName().endsWith(includePostfix))
+						filePathQueue.offer(subFile);
+			} else
+				fileList.add(file);
+		}
+		return fileList;
+	}
+
+	public static List<File> listAllFilesWithFilter(String foldName, String noIncludePostfix) {
+		if (foldName == null) {
+			logger.error("Loading dict occurs an error.");
+			return null;
+		}
+		Queue<File> filePathQueue = new LinkedList<File>();
+		List<File> fileList = new LinkedList<File>();
+		filePathQueue.offer(new File(foldName));
+		while (!filePathQueue.isEmpty()) {
+			File file = filePathQueue.poll();
+			if (!file.exists())
+				continue;
+			if (file.isDirectory()) {
+				File[] fileArray = file.listFiles();
+				assert fileArray != null;
+				for (File subFile : fileArray)
+					if (!subFile.getName().endsWith(noIncludePostfix))
+						filePathQueue.offer(subFile);
+			} else
+				fileList.add(file);
+		}
+		return fileList;
 	}
 	
 }

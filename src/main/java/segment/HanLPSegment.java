@@ -25,7 +25,7 @@ public class HanLPSegment extends BaseSegment {
 	 * http://hanlp.linrunsoft.com/doc/_build/html/ner.html
 	 */
     public void init(){
-		//ÓĞÅäÖÃµÄ³õÊ¼»¯¹ı³Ì
+		//æœ‰é…ç½®çš„åˆå§‹åŒ–è¿‡ç¨‹
 		if(true){//NER
 			segment.enableNameRecognize(true);
 			segment.enablePlaceRecognize(true);
@@ -92,14 +92,14 @@ public class HanLPSegment extends BaseSegment {
         }
         else if (model == 3) {
             parsedTermList = IndexTokenizer.segment(content);
-        }//·±Ìå·Ö´Ê
+        }//ç¹ä½“åˆ†è¯
         else if (model == 4) {
             parsedTermList = TraditionalChineseTokenizer.segment(content);
-        }//¼«ËÙ´Êµä·Ö´Ê
+        }//æé€Ÿè¯å…¸åˆ†è¯
         else if (model == 5) {
             parsedTermList = SpeedTokenizer.segment(content);
-        }//N-×î¶ÌÂ·¾¶·Ö´Ê
-        //CRF·Ö´Ê
+        }//N-æœ€çŸ­è·¯å¾„åˆ†è¯
+        //CRFåˆ†è¯
         return parsedTermList;
     }
 
