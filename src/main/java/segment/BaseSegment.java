@@ -3,16 +3,16 @@ package segment;
 import java.io.File;
 import java.util.List;
 
-import file.FileReader;
+import file.MyFileReader;
 
 public abstract class BaseSegment {
 	
 	public static final int optionDefault = 1;
 
 	public void addUserLibraryPath(String userLibraryPath) {
-		List<File> files = FileReader.listAllFilesWithFormat(userLibraryPath, ".dict");
+		List<File> files = MyFileReader.listAllFilesWithFormat(userLibraryPath, ".dict");
 		for(File file : files){
-			List<String> lines = FileReader.readListFile(file.getAbsolutePath(), "UTF-8");
+			List<String> lines = MyFileReader.readListFile(file.getAbsolutePath(), "UTF-8");
 			for(String line : lines){
 				String[] words = line.trim().split("\\s+");
 				addDynamicWord(words);

@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.io.CharSource;
 import com.google.common.io.Files;
 
-public class FileReader {
-	static Logger logger = LoggerFactory.getLogger(FileReader.class);
+public class MyFileReader {
+	static Logger logger = LoggerFactory.getLogger(MyFileReader.class);
 	
 	public static String readSchema(String schemaFile){
 		String schemaStr = "";

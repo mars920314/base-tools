@@ -9,7 +9,7 @@ import java.util.List;
 import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.huaban.analysis.jieba.JiebaSegmenter.SegMode;
 
-import file.FileReader;
+import file.MyFileReader;
 
 import com.huaban.analysis.jieba.SegToken;
 import com.huaban.analysis.jieba.WordDictionary;
@@ -28,7 +28,7 @@ public class JiebaSegment extends BaseSegment {
 	
 	@Override
 	public void addUserLibraryPath(String userLibraryPath) {
-		List<File> files = FileReader.listAllFilesWithFormat(userLibraryPath, ".dict");
+		List<File> files = MyFileReader.listAllFilesWithFormat(userLibraryPath, ".dict");
 		for(File file : files){
 			Path userDict = Paths.get(file.getAbsolutePath());
 			WordDictionary.getInstance().loadUserDict(userDict);

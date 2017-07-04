@@ -6,7 +6,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-import file.FileReader;
+import file.MyFileReader;
 import file.MyFileWriter;
 import http.HttpGetter;
 
@@ -39,7 +39,7 @@ public class Crawler {
 	}
 
     public static void main(String[] args){
-    	List<String> tickers = FileReader.readListFile("./etc/tickers", "gbk");
+    	List<String> tickers = MyFileReader.readListFile("./etc/tickers", "gbk");
     	List<String> parserXpathList = new ArrayList<String>();
     	parserXpathList.add(".//*[@class=\"main_intro_list\"]");
     	for(String ticker : tickers){
@@ -47,11 +47,11 @@ public class Crawler {
         	List<String> contents = Crawler.get(url, parserXpathList);
         	if(contents.size()==0)
         		continue;
-        	String[] segments = contents.get(0).replaceAll(" |\r|\n|", "").trim().split("²úÆ·ÀàÐÍ£º|²úÆ·Ãû³Æ£º|¾­Óª·¶Î§£º");
+        	String[] segments = contents.get(0).replaceAll(" |\r|\n|", "").trim().split("ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Í£ï¿½|ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Æ£ï¿½|ï¿½ï¿½Óªï¿½ï¿½Î§ï¿½ï¿½");
         	if(segments.length!=4)
         		continue;
-        	String type = segments[segments.length-3].trim().replaceAll("¡¢", ",");
-        	String name = segments[segments.length-2].trim().replaceAll("¡¢", ",");
+        	String type = segments[segments.length-3].trim().replaceAll("ï¿½ï¿½", ",");
+        	String name = segments[segments.length-2].trim().replaceAll("ï¿½ï¿½", ",");
         	String range = segments[segments.length-1];
         	MyFileWriter.writeFile(ticker + "\t" + type + "\t" + name + "\t" + range + "\r\n", "./etc/operate");
         	try {
