@@ -20,7 +20,7 @@
  * Dissemination of this information or reproduction of this material is 
  * strictly forbiddecom.datayes.utilsritten permission is obtained from DataYes.
  */
-package utils;
+package word;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package utils;
+package word;
 
 public class ProPrecessWords {
 
@@ -27,7 +27,7 @@ public class ProPrecessWords {
     }
     
     public static String replacePunctuation(String name){
-    	name = name.replaceAll("\\[|\\]|\\(|\\)|\\{|\\}|-|,|\\.|\\?|!|:|;|'|\"|`|>|<|≥|≤|@|#|\\$|%|&|\\*|、|\\+|/|\\\\|【|】|。|‘|“|·|》|《|�??", " ");
+    	name = name.replaceAll("\\[|\\]|\\(|\\)|\\{|\\}|-|,|\\.|\\?|!|:|;|'|\"|`|>|<|≥|≤|@|#|\\$|%|&|\\*|、|\\+|/|\\\\|【|】|。|‘|“|·|》|《|�??", " ");
     	return name;
     }
 }
