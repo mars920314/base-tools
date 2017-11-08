@@ -1,7 +1,7 @@
 package trie;
 
 /**
- * TrieÊ÷µÄ½ÚµãÀà
+ * Trieæ ‘çš„èŠ‚ç‚¹ç±»
  * 
  * @author lingjun.gao
  *

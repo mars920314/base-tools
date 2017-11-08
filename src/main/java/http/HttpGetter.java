@@ -82,9 +82,9 @@ public class HttpGetter extends HttpBase{
         return null;
     }
     
-    public static void main(String[] args) throws Exception{
-    	String result = HttpGetter.getInstance().crawl("http://www.iteye.com/topic/1130585", "utf-8");
-    	System.out.println(result);
-    }
+//    public static void main(String[] args) throws Exception{
+//    	String result = HttpGetter.getInstance().crawl("http://www.iteye.com/topic/1130585", "utf-8");
+//    	System.out.println(result);
+//    }
 
 }

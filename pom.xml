@@ -19,12 +19,20 @@
 	<artifactId>BaseTools</artifactId>
 	
 	 <dependencies>
+	 
+		<!-- conflict with logback-core -->
+	    <dependency>
+			<groupId>com.datayes</groupId>
+			<artifactId>springboot-framework</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+	    </dependency>
+	    
 		<!--logback-classic dependence on slf4j-api  --> 
-		<dependency>
+<!-- 		<dependency>
 		    <groupId>ch.qos.logback</groupId>
 		    <artifactId>logback-core</artifactId>
 		    <version>${logback.version}</version>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -144,5 +152,72 @@
 		</dependency>
 		
 	 </dependencies>
+
+	<build>
+		<plugins>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <excludes>
+                        <exclude>defaults.yaml</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                    <classpathDependencyExcludes>org.projectlombok:lombok</classpathDependencyExcludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+					<encoding>${project.build.sourceEncoding}</encoding><!-- fix bug from java dynamic programming -->
+                </configuration>   
+	            <executions>    
+	                <execution>
+	                	<id>springboot-zip</id>
+	                    <goals>    
+	                        <goal>repackage</goal>    
+	                    </goals>    
+	                </execution>    
+	            </executions> 
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+		</plugins>
+	</build>
 	 
 </project>

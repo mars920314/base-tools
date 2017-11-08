@@ -118,25 +118,25 @@ public class HashCode {
 		return hash.toString();
 	}
 	
-	public static void main(String[] args){
-		try {
-			System.out.println(HashCode.ChineseHash("瑞声科技(02018)：声学业务升级不止，非声学业务不断突破"));
-			System.out.println(HashCode.ChineseHash("图17：公司固体废物处理业务（固废处理+再生资源）营业情"));
-			List<String> entityList = MyFileReader.readListFile("./etc/entityName", "utf-8");
-			HashMap<Long, HashMap<String, String>> map = new HashMap<Long, HashMap<String, String>>();
-			for(String entity : entityList){
-				Long start = Long.valueOf(entity.split("\t")[1])/1000000*1000000;
-				map.put(start, putHash(entity.split("\t")[0], map.get(start), start));
-			}
-			for(Entry<Long, HashMap<String, String>> mapEntry : map.entrySet()){
-				for(Entry<String, String> entry : mapEntry.getValue().entrySet()){
-					MyFileWriter.writeFile(entry.getValue() + "\t" + entry.getKey() + "\r\n", "./etc/entityNameNew");
-				}
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args){
+//		try {
+//			System.out.println(HashCode.ChineseHash("瑞声科技(02018)：声学业务升级不止，非声学业务不断突破"));
+//			System.out.println(HashCode.ChineseHash("图17：公司固体废物处理业务（固废处理+再生资源）营业情"));
+//			List<String> entityList = MyFileReader.readListFile("./etc/entityName", "utf-8");
+//			HashMap<Long, HashMap<String, String>> map = new HashMap<Long, HashMap<String, String>>();
+//			for(String entity : entityList){
+//				Long start = Long.valueOf(entity.split("\t")[1])/1000000*1000000;
+//				map.put(start, putHash(entity.split("\t")[0], map.get(start), start));
+//			}
+//			for(Entry<Long, HashMap<String, String>> mapEntry : map.entrySet()){
+//				for(Entry<String, String> entry : mapEntry.getValue().entrySet()){
+//					MyFileWriter.writeFile(entry.getValue() + "\t" + entry.getKey() + "\r\n", "./etc/entityNameNew");
+//				}
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 }

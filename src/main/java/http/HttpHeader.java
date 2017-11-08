@@ -79,8 +79,8 @@ public class HttpHeader extends HttpBase {
         return null;
     }
 
-    public static void main(String[] args) throws Exception{
-    	Map<String, String> result = HttpHeader.getInstance().crawl("http://www.iteye.com/topic/1130585", HttpHeaders.CONTENT_LENGTH);
-    	System.out.println(result.get("statusCode"));
-    }
+//    public static void main(String[] args) throws Exception{
+//    	Map<String, String> result = HttpHeader.getInstance().crawl("http://www.iteye.com/topic/1130585", HttpHeaders.CONTENT_LENGTH);
+//    	System.out.println(result.get("statusCode"));
+//    }
 }

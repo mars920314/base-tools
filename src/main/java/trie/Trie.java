@@ -1,7 +1,7 @@
 package trie;
 
 /**
- * TrieÊ÷µÄ»ùÀà
+ * Trieæ ‘çš„åŸºç±»
  * 
  * @author lingjun.gao
  *
@@ -15,11 +15,11 @@ public class Trie {
 	}
 	
 	/**
-	 * ¸øtrie²åÈë½Úµã£¬ÔÚnameCodeÎ»ÖÃ²åÈëvalue
+	 * ç»™trieæ’å…¥èŠ‚ç‚¹ï¼Œåœ¨nameCodeä½ç½®æ’å…¥value
 	 * 
 	 * @param nameCode
-	 * @param value	½ÓÊÜÈÎÒâÀà
-	 * @return	·µ»ØtrueËµÃ÷²åÈëÕı³££¬·µ»ØfalseËµÃ÷²åÈëÊ±£¬ÒÑ¾­´æÔÚÖµÇÒÖµÓëÒª²åÈëÖµÏàµÈ
+	 * @param value	æ¥å—ä»»æ„ç±»
+	 * @return	è¿”å›trueè¯´æ˜æ’å…¥æ­£å¸¸ï¼Œè¿”å›falseè¯´æ˜æ’å…¥æ—¶ï¼Œå·²ç»å­˜åœ¨å€¼ä¸”å€¼ä¸è¦æ’å…¥å€¼ç›¸ç­‰
 	 */
 	public boolean insertTrieNode(byte[] nameCode, Object value){
 		TrieNode dummpy = root;
@@ -47,10 +47,10 @@ public class Trie {
 	}
 	
 	/**
-	 * ²éÕÒnameCodeµÄ½Úµã£¬²»¼ì²éÊÇ·ñÎªÒ¶½Úµã
+	 * æŸ¥æ‰¾nameCodeçš„èŠ‚ç‚¹ï¼Œä¸æ£€æŸ¥æ˜¯å¦ä¸ºå¶èŠ‚ç‚¹
 	 * 
 	 * @param nameCode
-	 * @return Èô½Úµã´æÔÚ£¬ÎŞÂÛÊÇ·ñÎªÒ¶½Úµã£¬¶¼·µ»Ø´Ë½Úµã¡£Èô½Úµã²»´æÔÚ£¬Ôò·µ»Ønull
+	 * @return è‹¥èŠ‚ç‚¹å­˜åœ¨ï¼Œæ— è®ºæ˜¯å¦ä¸ºå¶èŠ‚ç‚¹ï¼Œéƒ½è¿”å›æ­¤èŠ‚ç‚¹ã€‚è‹¥èŠ‚ç‚¹ä¸å­˜åœ¨ï¼Œåˆ™è¿”å›null
 	 */
 	public TrieNode searchTrieNode(byte[] nameCode){
 		TrieNode dummpy = root;
@@ -72,10 +72,10 @@ public class Trie {
 	}
 	
 	/**
-	 * ²éÕÒnameCodeµÄ½Úµã£¬²¢¼ì²éÊÇ·ñÎªÒ¶½Úµã
+	 * æŸ¥æ‰¾nameCodeçš„èŠ‚ç‚¹ï¼Œå¹¶æ£€æŸ¥æ˜¯å¦ä¸ºå¶èŠ‚ç‚¹
 	 * 
 	 * @param nameCode
-	 * @return Èô½Úµã´æÔÚÇÒÎªÒ¶½Úµã£¬Ôò·µ»Ø´ËÒ¶½Úµã¡£·ñÔò·µ»Ønull
+	 * @return è‹¥èŠ‚ç‚¹å­˜åœ¨ä¸”ä¸ºå¶èŠ‚ç‚¹ï¼Œåˆ™è¿”å›æ­¤å¶èŠ‚ç‚¹ã€‚å¦åˆ™è¿”å›null
 	 */
 	public TrieNode searchLeaf(byte[] nameCode){
 		TrieNode node = searchTrieNode(nameCode);
@@ -88,10 +88,10 @@ public class Trie {
 	}
 	
 	/**
-	 * ²éÕÒnameCodeµÄ½Úµã£¬
+	 * æŸ¥æ‰¾nameCodeçš„èŠ‚ç‚¹ï¼Œ
 	 * 
 	 * @param nameCode
-	 * @return Èô½Úµã´æÔÚÇÒÎªÒ¶½ÚµãÔò·µ»Ø´Ë½ÚµãµÄObject£¬Èô²»ÎªÒ¶½ÚµãÔò·µ»Ønew Object()£¬Èô½Úµã²»´æÔÚÔò·µ»Ønull
+	 * @return è‹¥èŠ‚ç‚¹å­˜åœ¨ä¸”ä¸ºå¶èŠ‚ç‚¹åˆ™è¿”å›æ­¤èŠ‚ç‚¹çš„Objectï¼Œè‹¥ä¸ä¸ºå¶èŠ‚ç‚¹åˆ™è¿”å›new Object()ï¼Œè‹¥èŠ‚ç‚¹ä¸å­˜åœ¨åˆ™è¿”å›null
 	 */
 	public Object searchValue(byte[] nameCode){
 		TrieNode node = searchTrieNode(nameCode);
@@ -105,7 +105,7 @@ public class Trie {
 	}
 	
 	/**
-	 * É¾³ı½Úµã
+	 * åˆ é™¤èŠ‚ç‚¹
 	 * 
 	 * @param nameCode
 	 * @return -1, if there is no node found or result node is not leaf. 0, if delete successfully
@@ -121,7 +121,7 @@ public class Trie {
 	}
 	
 	/**
-	 * ¸üĞÂ½Úµã
+	 * æ›´æ–°èŠ‚ç‚¹
 	 * 
 	 * @param nameCode
 	 * @param obj

@@ -38,28 +38,28 @@ public class Crawler {
     	return contents;
 	}
 
-    public static void main(String[] args){
-    	List<String> tickers = MyFileReader.readListFile("./etc/tickers", "gbk");
-    	List<String> parserXpathList = new ArrayList<String>();
-    	parserXpathList.add(".//*[@class=\"main_intro_list\"]");
-    	for(String ticker : tickers){
-        	String url = "http://basic.10jqka.com.cn/" + ticker + "/operate.html";
-        	List<String> contents = Crawler.get(url, parserXpathList);
-        	if(contents.size()==0)
-        		continue;
-        	String[] segments = contents.get(0).replaceAll(" |\r|\n|", "").trim().split("��Ʒ���ͣ�|��Ʒ���ƣ�|��Ӫ��Χ��");
-        	if(segments.length!=4)
-        		continue;
-        	String type = segments[segments.length-3].trim().replaceAll("��", ",");
-        	String name = segments[segments.length-2].trim().replaceAll("��", ",");
-        	String range = segments[segments.length-1];
-        	MyFileWriter.writeFile(ticker + "\t" + type + "\t" + name + "\t" + range + "\r\n", "./etc/operate");
-        	try {
-				Thread.sleep(400L);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
-    }
+//    public static void main(String[] args){
+//    	List<String> tickers = MyFileReader.readListFile("./etc/tickers", "gbk");
+//    	List<String> parserXpathList = new ArrayList<String>();
+//    	parserXpathList.add(".//*[@class=\"main_intro_list\"]");
+//    	for(String ticker : tickers){
+//        	String url = "http://basic.10jqka.com.cn/" + ticker + "/operate.html";
+//        	List<String> contents = Crawler.get(url, parserXpathList);
+//        	if(contents.size()==0)
+//        		continue;
+//        	String[] segments = contents.get(0).replaceAll(" |\r|\n|", "").trim().split("��Ʒ���ͣ�|��Ʒ���ƣ�|��Ӫ��Χ��");
+//        	if(segments.length!=4)
+//        		continue;
+//        	String type = segments[segments.length-3].trim().replaceAll("��", ",");
+//        	String name = segments[segments.length-2].trim().replaceAll("��", ",");
+//        	String range = segments[segments.length-1];
+//        	MyFileWriter.writeFile(ticker + "\t" + type + "\t" + name + "\t" + range + "\r\n", "./etc/operate");
+//        	try {
+//				Thread.sleep(400L);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//    	}
+//    }
 }

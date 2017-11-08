@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TrieÊ÷µÄÓ¦ÓÃ¹¤¾ß·½·¨Àà£¬¹©¶ş´Î¿ª·¢Ìí¼ÓÌØÓĞ·ÃÎÊTrieµÄ¹¦ÄÜ
+ * Trieæ ‘çš„åº”ç”¨å·¥å…·æ–¹æ³•ç±»ï¼Œä¾›äºŒæ¬¡å¼€å‘æ·»åŠ ç‰¹æœ‰è®¿é—®Trieçš„åŠŸèƒ½
  * 
  * @author lingjun.gao
  *
@@ -22,11 +22,11 @@ public class TrieApplication {
 	}
 	
 	/**
-	 * ÒÔNoOverLapµÄ·½Ê½ÔÚtrieÖĞËÑË÷£¬×Ö·û´®strÖĞ´æÔÚÄÄĞ©×Ó×Ö·û´®Æ¥ÅäÁËtrieµÄ×Öµä
+	 * ä»¥NoOverLapçš„æ–¹å¼åœ¨trieä¸­æœç´¢ï¼Œå­—ç¬¦ä¸²strä¸­å­˜åœ¨å“ªäº›å­å­—ç¬¦ä¸²åŒ¹é…äº†trieçš„å­—å…¸
 	 * 
 	 * @param trie
 	 * @param str
-	 * @return ·µ»ØËùÓĞÆ¥ÅäµÄ×Ó×Ö·û´®¼°ÆäÏÂ¹ÒObject×é³ÉµÄMap
+	 * @return è¿”å›æ‰€æœ‰åŒ¹é…çš„å­å­—ç¬¦ä¸²åŠå…¶ä¸‹æŒ‚Objectç»„æˆçš„Map
 	 */
 	public static Map<String, Object> MatchWithoutOverlap(Trie trie, String str){
 		Map<String, Object> matchMap = new HashMap<String, Object>();
@@ -71,11 +71,11 @@ public class TrieApplication {
 	}
 	
 	/**
-	 * ÒÔOverLapµÄ·½Ê½ÔÚtrieÖĞËÑË÷£¬×Ö·û´®strÖĞ´æÔÚÄÄĞ©×Ó×Ö·û´®Æ¥ÅäÁËtrieµÄ×Öµä
+	 * ä»¥OverLapçš„æ–¹å¼åœ¨trieä¸­æœç´¢ï¼Œå­—ç¬¦ä¸²strä¸­å­˜åœ¨å“ªäº›å­å­—ç¬¦ä¸²åŒ¹é…äº†trieçš„å­—å…¸
 	 * 
 	 * @param trie
 	 * @param str
-	 * @return ·µ»ØËùÓĞÆ¥ÅäµÄ×Ó×Ö·û´®¼°ÆäÏÂ¹ÒObject×é³ÉµÄMap
+	 * @return è¿”å›æ‰€æœ‰åŒ¹é…çš„å­å­—ç¬¦ä¸²åŠå…¶ä¸‹æŒ‚Objectç»„æˆçš„Map
 	 */
 	public static Map<String, Object> MatchWithOverlap(Trie trie, String str){
 		Map<String, Object> matchMap = new HashMap<String, Object>();
@@ -100,7 +100,7 @@ public class TrieApplication {
 					if(nodeMax.getObject()!=null){
 						matchMap.put(strMatchMax, nodeMax.getObject());
 					}
-					//¸´ÓÃmatchWithoutOverlap£¬Æ¥ÅäÖ®ºóÖ»Ç°½øÒ»Î»
+					//å¤ç”¨matchWithoutOverlapï¼ŒåŒ¹é…ä¹‹ååªå‰è¿›ä¸€ä½
 //					begin = begin + strMatchMax.length();
 					begin++;
 					end = begin + 1;
@@ -122,10 +122,10 @@ public class TrieApplication {
 	}
 	
 	/**
-	 * ÔÚtrieÖĞËÑË÷£¬×Ö·û´®strÖĞ´æÔÚÄÄĞ©×Ó×Ö·û´®Î´Æ¥ÅäÈÎºÎtrieµÄ×Öµä
+	 * åœ¨trieä¸­æœç´¢ï¼Œå­—ç¬¦ä¸²strä¸­å­˜åœ¨å“ªäº›å­å­—ç¬¦ä¸²æœªåŒ¹é…ä»»ä½•trieçš„å­—å…¸
 	 * @param trie
 	 * @param str
-	 * @return °´Ë³Ğò·µ»ØËùÓĞÎ´Æ¥ÅäµÄ×Ó×Ö·û´®
+	 * @return æŒ‰é¡ºåºè¿”å›æ‰€æœ‰æœªåŒ¹é…çš„å­å­—ç¬¦ä¸²
 	 */
 	public static List<String> MatchNotExist(Trie trie, String str){
 		Map<String, Object> matchMap = new HashMap<String, Object>();
