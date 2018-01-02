@@ -16,7 +16,7 @@
 	
 	<groupId>com.datayes</groupId>
 	<version>0.0.1-${BUILD_NUMBER}</version>
-	<artifactId>Base-Tools</artifactId>
+	<artifactId>puma-base-tools</artifactId>
 	
 	 <dependencies>
 	 
@@ -203,7 +203,9 @@
                 <version>2.18.1</version>
                 <configuration>
                     <skipTests>true</skipTests>
-                    <classpathDependencyExcludes>org.projectlombok:lombok</classpathDependencyExcludes>
+                    <classpathDependencyExcludes>
+	                    <classpathDependencyExclude>org.projectlombok:lombok</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
                 </configuration>
             </plugin>
             <plugin>
