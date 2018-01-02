@@ -26,8 +26,10 @@ public abstract class ThreadServiceBase<T> {
     }
     
     public Future<T> threadResult() throws InterruptedException{
-        currentQueueLen--;
-		return completionService.take();
+    	Future<T> future = completionService.take();
+    	if(future!=null)
+    		currentQueueLen--;
+		return future;
     }
 
     public boolean isQueueEmpty() {
