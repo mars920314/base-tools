@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,6 +27,34 @@ public class ExcelRW {
             fis = new FileInputStream(filename);
             XSSFWorkbook workbook = new XSSFWorkbook(fis);
             XSSFSheet sheet = workbook.getSheetAt(0);
+            Iterator rows = sheet.rowIterator();
+            while (rows.hasNext()) {
+                XSSFRow row = (XSSFRow) rows.next();
+                Iterator cells = row.cellIterator();
+                List data = new ArrayList();
+                while (cells.hasNext()) {
+                    XSSFCell cell = (XSSFCell) cells.next();
+                    data.add(cell);
+                }
+                sheetData.add(data);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                fis.close();
+            }
+        }
+        return getExelData(sheetData);
+    }
+
+    public static List<String[]> readExcelBySheet(String filename, String sheetname) throws Exception {
+        List sheetData = new ArrayList();
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(filename);
+            XSSFWorkbook workbook = new XSSFWorkbook(fis);
+            XSSFSheet sheet = workbook.getSheet(sheetname);
             Iterator rows = sheet.rowIterator();
             while (rows.hasNext()) {
                 XSSFRow row = (XSSFRow) rows.next();
@@ -88,6 +117,28 @@ public class ExcelRW {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	static public void writeExcelBySheet(String fileName, Map<String, List<String[]>> contentListMap) throws Exception {
+		// create a new file
+		FileOutputStream outStream = new FileOutputStream(fileName);
+		// create a new workbook
+		Workbook workbook = new XSSFWorkbook();
+		for(Map.Entry<String, List<String[]>> entry : contentListMap.entrySet()){
+			String sheetname = entry.getKey();
+			List<String[]> contentList = entry.getValue();
+			Sheet thisSheet = workbook.createSheet(sheetname);
+			int rowID = 0;
+			for (String[] thisContent : contentList) {
+			    Row thisRow = thisSheet.createRow(rowID++);
+			    for (int columnID=0; columnID<thisContent.length; columnID++) {
+			    	Cell thisCell = thisRow.createCell(columnID);
+			    	thisCell.setCellValue(thisContent[columnID]);
+			    }
+			}
+		}
+		workbook.write(outStream);
+		outStream.close();
 	}
 	
 }
