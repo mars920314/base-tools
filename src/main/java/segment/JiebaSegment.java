@@ -8,11 +8,10 @@ import java.util.List;
 
 import com.huaban.analysis.jieba.JiebaSegmenter;
 import com.huaban.analysis.jieba.JiebaSegmenter.SegMode;
-
-import file.MyFileReader;
-
 import com.huaban.analysis.jieba.SegToken;
 import com.huaban.analysis.jieba.WordDictionary;
+
+import file.MyFileReader;
 
 public class JiebaSegment extends BaseSegment {
 	

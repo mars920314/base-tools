@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.Header;
-import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;

@@ -3,8 +3,12 @@ package file;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -13,6 +17,7 @@ import java.util.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.FluentIterable;
 import com.google.common.io.CharSource;
 import com.google.common.io.Files;
 
@@ -35,8 +40,12 @@ public class MyFileReader {
 		String propertyVal = "";
 		Properties dbProperty = new Properties();
 		try {
-			dbProperty.load(new FileInputStream(propertyFile));
+			FileInputStream fi = new FileInputStream(propertyFile);
+			InputStreamReader isr = new InputStreamReader(fi, "UTF-8");
+			dbProperty.load(isr);
 			propertyVal = dbProperty.getProperty(propertyName);
+			isr.close();
+			fi.close();
 		} catch (Exception e) {
 			logger.info("Error: " + e.toString());
 		}
@@ -47,11 +56,15 @@ public class MyFileReader {
 		List<String> names = new LinkedList<String>();
 		String data = "";
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), encodings));
+			FileInputStream fi = new FileInputStream(fileName);
+			InputStreamReader isr = new InputStreamReader(fi, encodings);
+			BufferedReader br = new BufferedReader(isr);
 			while((data = br.readLine())!=null)
 				if (data.length()>0)
 					names.add(data);
 			br.close();
+			isr.close();
+			fi.close();
 		} catch (Exception e) {
 			logger.info("Error: " + e.toString());
 		}
@@ -62,16 +75,35 @@ public class MyFileReader {
 		List<String> lines = new LinkedList<String>();
 		String data = "";
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					ClassLoader.getSystemClassLoader().getResourceAsStream(fileName), encodings));
+			InputStreamReader isr = new InputStreamReader(ClassLoader.getSystemClassLoader().getResourceAsStream(fileName), encodings);
+			BufferedReader br = new BufferedReader(isr);
 			while ((data = br.readLine()) != null)
 				if (data.length() > 0)
 					lines.add(data);
 			br.close();
+			isr.close();
 		} catch (Exception e) {
 			logger.info("Error: " + e.toString());
 		}
 		return lines;
+	}
+	
+	public static FluentIterable<File> iterateAllFilesWithFormat(String foldName){
+		File file = new File(foldName);
+		FluentIterable<File> ite = com.google.common.io.Files.fileTreeTraverser().breadthFirstTraversal(file);
+		return ite;
+	}
+	
+	public static DirectoryStream<Path> iterateAllPathWithFormat(String foldName){
+		Path path = Paths.get(foldName);
+		try {
+			DirectoryStream<Path> paths = java.nio.file.Files.newDirectoryStream(path);
+			return paths;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static List<File> listAllFilesWithFormat(String foldName, String includePostfix) {

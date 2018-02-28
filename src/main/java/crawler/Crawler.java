@@ -6,8 +6,6 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-import file.MyFileReader;
-import file.MyFileWriter;
 import http.HttpGetter;
 
 public class Crawler {

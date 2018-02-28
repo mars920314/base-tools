@@ -5,11 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-
-import file.MyFileReader;
-import file.MyFileWriter;
 
 public class HashCode {
 	

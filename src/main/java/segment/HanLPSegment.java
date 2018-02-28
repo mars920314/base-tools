@@ -7,7 +7,10 @@ import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.tokenizer.*;
+import com.hankcs.hanlp.tokenizer.IndexTokenizer;
+import com.hankcs.hanlp.tokenizer.NLPTokenizer;
+import com.hankcs.hanlp.tokenizer.SpeedTokenizer;
+import com.hankcs.hanlp.tokenizer.TraditionalChineseTokenizer;
 
 public class HanLPSegment extends BaseSegment {
 

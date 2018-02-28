@@ -2,21 +2,26 @@ package thread;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public abstract class ThreadServiceBase<T> {
+public class ThreadCallableServiceBase<T> {
 	
 	private ExecutorService executor;
+	//是一个将线程池执行结果放入到一个Blockqueueing的类。多线程的执行时间是未知的，不用通过循环遍历线程池取得结果，直接去queue中取即可。
 	private CompletionService<T> completionService;
 	private Integer currentQueueLen = 0;
 	private Integer poolsize;
 	
-	public ThreadServiceBase(Integer poolsize){
+	public ThreadCallableServiceBase(Integer poolsize){
 		this.poolsize = poolsize;
+//	    executor = Executors.newSingleThreadExecutor();
 	    executor = Executors.newFixedThreadPool(this.poolsize);
+//	    executor = Executors.newCachedThreadPool();
+//	    executor = Executors.newScheduledThreadPool(this.poolsize);
 	    completionService = new ExecutorCompletionService<T>(executor);
 	}
     
@@ -25,11 +30,20 @@ public abstract class ThreadServiceBase<T> {
 		return completionService.submit(thread);
     }
     
-    public Future<T> threadResult() throws InterruptedException{
-    	Future<T> future = completionService.take();
-    	if(future!=null)
-    		currentQueueLen--;
-		return future;
+    public T threadResult() throws InterruptedException{
+    	try {
+        	Future<T> future = completionService.take();
+        	if(future!=null)
+        		currentQueueLen--;
+    		return future.get();
+    	} catch (InterruptedException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	} catch (ExecutionException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	return null;
     }
 
     public boolean isQueueEmpty() {
@@ -59,7 +73,5 @@ public abstract class ThreadServiceBase<T> {
     public void shutdownNow(){
     	executor.shutdownNow();
     }
-
-	public abstract T getThreadResult();
-
+	
 }
