@@ -13,7 +13,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Queue;
+import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.LineIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +55,7 @@ public class MyFileReader {
 		return propertyVal;
 	}
 	
-	public static List<String> readListFile(String fileName, String encodings){
+	public static List<String> readFileList(String fileName, String encodings){
 		List<String> names = new LinkedList<String>();
 		String data = "";
 		try {
@@ -71,7 +74,7 @@ public class MyFileReader {
 		return names;
 	}
 
-	public static List<String> loadListFile(String fileName, String encodings) {
+	public static List<String> loadFileList(String fileName, String encodings) {
 		List<String> lines = new LinkedList<String>();
 		String data = "";
 		try {
@@ -87,13 +90,75 @@ public class MyFileReader {
 		}
 		return lines;
 	}
-	
+	/**
+	 * 读超大文件，只返回行的指针，没有全部放入内存。有三种方法：
+	 * BufferedReader 基于Buffered缓冲类
+	 * Scanner 基于Scanner类文件流
+	 * LineIterator 基于Apache Commons IO流
+	 * @param fileName
+	 * @param encodings
+	 * @return
+	 */
+	public static void readFileScanner(String fileName, String encodings) {
+		FileInputStream inputStream = null;
+		Scanner sc = null;
+		try {
+		    inputStream = new FileInputStream(fileName);
+		    sc = new Scanner(inputStream, "UTF-8");
+		    while (sc.hasNextLine()) {
+		        String line = sc.nextLine();
+		    }
+		    // note that Scanner suppresses exceptions
+		    if (sc.ioException() != null) {
+		        throw sc.ioException();
+		    }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+		    if (inputStream != null)
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    if (sc != null)
+		        sc.close();
+		}
+	}
+	public static void readFileIterator(String fileName, String encodings) {
+		LineIterator it = null;
+		try {
+			it = FileUtils.lineIterator(new File(fileName), encodings);
+		    while (it.hasNext()) {
+		        String line = it.nextLine();
+		        // do something with line
+		    }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(it!=null)
+				LineIterator.closeQuietly(it);
+		}
+	}
+	/**
+	 * 读文件夹下有超多子文件的情况，只返回文件队列的迭代器
+	 * @param foldName
+	 * @return
+	 */
 	public static FluentIterable<File> iterateAllFilesWithFormat(String foldName){
 		File file = new File(foldName);
 		FluentIterable<File> ite = com.google.common.io.Files.fileTreeTraverser().breadthFirstTraversal(file);
 		return ite;
 	}
 	
+	/**
+	 * 读文件夹下有超多子文件的情况，只返回文件队列的路径流
+	 * @param foldName
+	 * @return
+	 */
 	public static DirectoryStream<Path> iterateAllPathWithFormat(String foldName){
 		Path path = Paths.get(foldName);
 		try {

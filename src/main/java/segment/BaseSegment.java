@@ -12,7 +12,7 @@ public abstract class BaseSegment {
 	public void addUserLibraryPath(String userLibraryPath) {
 		List<File> files = MyFileReader.listAllFilesWithFormat(userLibraryPath, ".dict");
 		for(File file : files){
-			List<String> lines = MyFileReader.readListFile(file.getAbsolutePath(), "UTF-8");
+			List<String> lines = MyFileReader.readFileList(file.getAbsolutePath(), "UTF-8");
 			for(String line : lines){
 				String[] words = line.trim().split("\\s+");
 				addDynamicWord(words);

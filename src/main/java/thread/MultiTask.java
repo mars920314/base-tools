@@ -7,7 +7,7 @@ import java.util.concurrent.FutureTask;
 
 public class MultiTask {
 
-	public static void main(String[] args){
+	public void run(String[] args){
 		Runnable taskRunnable = new TaskRunnable(args);
 		(new Thread(taskRunnable)).start();
 		

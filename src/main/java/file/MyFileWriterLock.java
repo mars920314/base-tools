@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -29,7 +30,23 @@ public class MyFileWriterLock {
 			dbProperty.setProperty(propertyName, propertyVal);
 			FileOutputStream fo = new FileOutputStream(propertyFile);
 			FileChannel fco = fo.getChannel();
-			FileLock flo = fco.lock();
+			//重试3次获取锁，否则抛出错误
+			FileLock flo = null;
+			int retry = 3;
+			while (true) {
+				try {
+					flo = fco.lock();
+					break;
+				} catch (OverlappingFileLockException e) {
+					if (retry > 0) {
+						retry--;
+						Thread.sleep((long) (Math.random() * 1000));
+					} else {
+						fo.close();
+						throw e;
+					}
+				}
+			}
 			OutputStreamWriter ofw = new OutputStreamWriter(fo, "UTF-8");
 			dbProperty.store(ofw, "auto-gen properties");
 			flo.release();

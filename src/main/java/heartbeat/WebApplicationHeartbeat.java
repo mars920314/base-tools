@@ -10,10 +10,10 @@ import com.datayes.framework.WebApplicationBase;
 @ComponentScan(basePackages={"com.datayes.service.springboot"})
 @EnableAutoConfiguration
 //@SpringBootApplication
-public class WebApplication {
+public class WebApplicationHeartbeat {
 
     public static void main(String[] args) throws Exception {
-        WebApplicationBase.run(WebApplication.class, args);
+        WebApplicationBase.run(WebApplicationHeartbeat.class, args);
     }
 
 }
