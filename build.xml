@@ -1,0 +1,85 @@
+<project name="math" basedir="." default="test"><!--默认执行的任务-->
+
+ <!--预定义的属性和 classpath -->
+ <property name="src.dir" value="${basedir}/src/main/java" /><!-- 设置源码位置 -->
+ <property name="lib.dir" value="${basedir}/lib" /><!--设置其他jar包目录-->
+ <property name="test.dir" value="${basedir}/src/test/java" /><!-- 设置测试代码位置 -->
+ <property name="build.dir" value="${basedir}/build" /><!--配置结果输出地址-->
+ 
+ <property name="classes.dir" value="${build.dir}/classes" />
+ <property name="tests.dir" value="${build.dir}/tests" />
+ <property name="coverage.dir" value="${build.dir}/coverage" />
+ <property name="jar.dir" value="${build.dir}/jar" />
+  
+ <path id="classpath">
+	<pathelement location="." />
+	<fileset dir="${lib.dir}">
+	    <include name="**/*.jar" />
+	</fileset>
+ </path>
+ 
+ <path id="sourcepath">
+    <pathelement location="./src" />
+ </path>
+  
+  <!--清除上次构建 -->
+  <target name="clean">
+      <delete dir="${build.dir}" />
+  </target>
+   
+  <!--编译代码，包括单元测试 -->
+  <target name="compile" depends="clean">
+     <mkdir dir="${classes.dir}" /><!--新建文件存放目录-->
+     <mkdir dir="${tests.dir}" />
+     <mkdir dir="${coverage.dir}" />
+
+     <javac source="1.8" srcdir="${src.dir}" destdir="${classes.dir}" encoding="UTF-8" includeantruntime="off" debug="off" debuglevel="lines,vars,source"><!--编译java程序-->
+         <include name="**/*.java" />  
+     </javac>
+     <javac source="1.8" srcdir="${test.dir}" destdir="${tests.dir}" encoding="UTF-8" includeantruntime="off" debug="on" debuglevel="lines,vars,source">
+         <include name="**/*.java" /> 
+	     <classpath>
+		     <path refid="classpath" />
+		     <path location="${classes.dir}" />
+	     </classpath> 
+     </javac>
+  </target>
+  
+  <!--运行testng文件-->
+  <target name="runtestng" depends="compile">
+  	<!-- 在target里面新建一个testng标签，里面需要设置的属性有：
+	  	outputdir – 测试结果输出目录；
+	  	classpathref – 那些自动化测试代码的目标路径，通常就是编译完成以后的那个目标路径，例如xxx/bin；
+	  	delegateCommandSystemProperties – 接受传递命令行参数作为系统变量，这个设置为true可以在调用Ant的时候通过 -Dfoo=value 把参数传递给TestNG；
+	  	里面还有一个xmlfileset节点，这个节点就是指定testng.xml文件的目录以及具体文件。 -->
+	<testng outputdir="${base.dir}/test-output" classpathref="classpath" delegateCommandSystemProperties="true">
+		<xmlfileset dir="${base.dir}" includes="testng1.xml"/> <!--在指定路径下，找文件名由testng.file--> <!--定义的testng.xml文件-->
+	</testng> 
+  </target>
+  
+  <!--运行junit文件-->
+  <target name="runjunit" depends="compile">
+     <junit printsummary="yes">
+       <classpath>
+	       <path refid="classpath"/>
+	       <path location="${classes.dir}" />
+	       <path location="${tests.dir}" />
+       </classpath>
+       <batchtest fork="yes">
+	       <fileset dir="${test.dir}" includes="**/*Test.java"/>
+       </batchtest>
+     </junit>
+  </target>
+  
+  <!--打包 -->
+  <target name="jar" depends="runtestng">
+     <mkdir dir="${jar.dir}" />
+     <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+     </jar>
+  </target>
+   
+  <!--运行单元测试 -->
+  <target name="test" depends="jar">
+  
+  </target>
+</project>

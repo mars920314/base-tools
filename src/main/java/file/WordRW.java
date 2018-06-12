@@ -1,6 +1,7 @@
 package file;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +23,13 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
  * The Class WordWr.
  * http://www.w3ii.com/zh-CN/apache_poi_word/default.html
  */
-public class WordWr {
+public class WordRW {
+	
+	public static XWPFDocument readWord(String fileName) throws IOException {
+		// Read Document
+		XWPFDocument document = new XWPFDocument(new FileInputStream(new File(fileName)));
+		return document;
+	}
 	
 	public static XWPFDocument createWord() {
 		// Blank Document

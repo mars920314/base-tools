@@ -58,10 +58,18 @@ public class Gsons {
 	 * @param typeToken
 	 * @return
 	 */
-	public static <T> List<T> fromJson(String json, TypeToken<List<T>> typeToken) {
+	public static <T> List<T> fromJsonList(String json, TypeToken<List<T>> typeToken) {
 		Type type = typeToken.getType();
 
 		List<T> ret = gson.fromJson(json, type);
+
+		return ret;
+	}
+
+	public static <T> T fromJson(String json, TypeToken<T> typeToken) {
+		Type type = typeToken.getType();
+
+		T ret = gson.fromJson(json, type);
 
 		return ret;
 	}

@@ -15,7 +15,7 @@
 	</properties>
 	
 	<groupId>com.datayes</groupId>
-	<version>0.0.2</version>
+	<version>0.0.3-${BUILD_NUMBER}</version>
 	<artifactId>puma-base-tools</artifactId>
 	
 	 <dependencies>
@@ -157,6 +157,13 @@
 		    <artifactId>mail</artifactId>
 		    <version>1.4.6</version>
 		</dependency>
+	
+		<!-- test -->
+		<dependency>
+		    <groupId>org.testng</groupId>
+		    <artifactId>testng</artifactId>
+		    <version>6.10</version>
+		</dependency>
 		
 	 </dependencies>
 
@@ -243,6 +250,25 @@
                     </execution>
                 </executions>
             </plugin>
+			<plugin>
+			    <groupId>org.jacoco</groupId>
+			    <artifactId>jacoco-maven-plugin</artifactId>
+			    <version>0.8.1</version>
+			    <executions>
+			        <execution>
+			            <goals>
+			                <goal>prepare-agent</goal>
+			            </goals>
+			        </execution>
+			        <execution>
+			            <id>report</id>
+			            <phase>prepare-package</phase>
+			            <goals>
+			                <goal>report</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
 		</plugins>
 	</build>
 	 

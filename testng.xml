@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TestSample">
+
+    <test name="TestSimplify">
+        <classes>
+            <class name="com.datayes.test.TestSample" />
+        </classes>
+    </test>
+
+	<!-- verbose设置测试报告的内容级别,2标识的就是记录的日志级别，共有0-10的级别，其中0表示无，10表示最详细 -->
+    <test name="TestOverall" verbose="2">
+    	<!-- 指定属性的额外详细情况 -->
+    	<parameter name="" value="">
+    	</parameter>
+    	<!-- 指定要包括或排除某个分组 -->
+		<groups>
+		  <run>
+		    <include name="group_yes"  />
+		    <exclude name="group_no"  />
+		  </run>
+		</groups>
+		<!-- 包名称而不是类名称 -->
+        <packages>
+            <package name="com.datayes.test.*" />
+        </packages>
+        <classes>
+            <!-- 指定包含或排除的方法 -->
+	        <class name="com.datayes.test.testclass">
+	            <methods>
+	                <include name="method_yes" />
+	                <exclude name="method_no" />
+	            </methods>
+	        </class>
+        </classes>
+    </test>
+
+</suite>
