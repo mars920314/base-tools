@@ -3,6 +3,7 @@ package heartbeat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -11,39 +12,46 @@ import org.slf4j.LoggerFactory;
 public class HeartBeatService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 
-	public static Map<String, HeartBeat<String>> serviceMap = new HashMap<String, HeartBeat<String>>();
-    static int warningTime = 1;
-    static int errorTime = 2;
-	
-	public static void setTime(String serviceName, long timestamp) {
-		HeartBeat<String> heartbeat = null;
-		if (serviceMap.get(serviceName)==null){
-			heartbeat = new HeartBeat<String>(serviceName);
-			heartbeat.setTimestamp(timestamp);
+	public static Map<String, HeartBeat> serviceMap = new HashMap<String, HeartBeat>();
+
+	/**
+	 * service invoke to record timestamp
+	 */
+	public static void updateServiceTime(HeartBeat heartbeat) {
+		heartbeat.checkStatus();
+		serviceMap.put(heartbeat.getService(), heartbeat);
+	}
+
+	public static void updateServiceTime(String serviceName, long timestamp) {
+		HeartBeat heartbeat = new HeartBeat(serviceName, CodeEnum.success.getCode(), "", timestamp);
+		updateServiceTime(heartbeat);
+	}
+
+	/**
+	 * run scheduled to get responds for services
+	 */
+	public static void requestService(){
+		List<String> serviceNames = new ArrayList<String>();
+		for (String serviceName : serviceNames) {
+			HeartBeat heartbeat = null;
+			try {
+				boolean responds = true;	//judge if serviceName has responds
+				if(responds)
+					heartbeat = new HeartBeat(serviceName, CodeEnum.success.getCode(), "Success: get responds for service " + serviceNames, new Date().getTime());
+				else
+					heartbeat = new HeartBeat(serviceName, CodeEnum.error.getCode(), "Error: no responds for service " + serviceNames, new Date().getTime());
+			} catch (Exception e) {
+				heartbeat = new HeartBeat(serviceName, CodeEnum.RunTimeError.getCode(), "Error: get service exception", new Date().getTime());
+				e.printStackTrace();
+			}
+			updateServiceTime(heartbeat);
 		}
-		else{
-			heartbeat = serviceMap.get(serviceName);
-			heartbeat.setTimestamp(timestamp);
-		}
-		long diff = new Date().getTime()/1000 - timestamp;
-		if (diff<warningTime) {
-			heartbeat.setStatus(1);
-			heartbeat.setMessage("OK");
-		} else if (diff<errorTime && diff>=warningTime) {
-			heartbeat.setStatus(2);
-			heartbeat.setMessage("Warning: no update in 1 hour");
-		} else if (diff>=errorTime) {
-			heartbeat.setStatus(3);
-			heartbeat.setMessage("Error: no update in 2 hours");
-		}
-		serviceMap.put(serviceName, heartbeat);
 	}
 	
-	public static HeartBeat<ArrayList<HeartBeat<String>>> loadHeatBeat() {
-		ArrayList<HeartBeat<String>> heartBeaservices = new ArrayList<HeartBeat<String>>(serviceMap.values());
-		HeartBeat<ArrayList<HeartBeat<String>>> heartBeatModel = new HeartBeat<ArrayList<HeartBeat<String>>>(heartBeaservices);
-		heartBeatModel.checkStatus();
+	public static HeartBeat loadHeartBeat() {
+		HeartBeat heartBeatModel = new HeartBeat(new ArrayList<HeartBeat>(serviceMap.values()));
+		heartBeatModel.collectStatus();
 		return heartBeatModel;
 	}
-	
+
 }

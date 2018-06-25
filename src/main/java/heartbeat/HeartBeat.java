@@ -1,72 +1,118 @@
 package heartbeat;
 
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class HeartBeat<T> {
-    private int status;
-    private String message;
-    private long timestamp;
-    public T services;
+enum CodeEnum {
+	success(1), warning(2), error(2), RunTimeError(-1);
 
-    public HeartBeat (T services) {
-        this.services = services;
-        status = -1;
-        message = "";
-        timestamp = 0;
-    }
+	private int code;
 
-    public void checkStatus() {
-    	ArrayList<HeartBeat<String>> services;
-    	try{
-        	services = (ArrayList<HeartBeat<String>>) this.services;
-    	} catch(Exception e){
-    		e.printStackTrace();
-    		return;
-    	}
-        // update heartBeat status
-        for (int i = 0; i < services.size(); i++) {
-        	HeartBeat<String> service = services.get(i);
-            status = Math.max(status, service.getStatus());
-        }
-        // update message
-        if (status == 1) {
-            message = "OK";
-        } else if (status == 2) {
-            message = "WARN: program has risk";
-        } else if (status == 3) {
-            message = "ERROR: program is down";
-        }
-    }
+	CodeEnum(int code) {
+		this.code = code;
+	}
 
-    public T getServices() {
-        return services;
-    }
+	public int getCode() {
+		return code;
+	}
+}
 
-    public void setServices(T services) {
-        this.services = services;
-    }
+public class HeartBeat {
 
-    public int getStatus() {
-        return status;
-    }
+	public static final long warningTime = Long.MAX_VALUE;
+	public static final long errorTime = Long.MAX_VALUE;
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
+	private int status;
+	private String message;
+	private long timestamp;
+	public List<HeartBeat> services;
+	public String service;
 
-    public String getMessage() {
-        return message;
-    }
+	public HeartBeat() {
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+	}
 
-    public long getTimestamp() {
-        return timestamp;
-    }
+	public HeartBeat(List<HeartBeat> services) {
+		this.services = services;
+		status = CodeEnum.success.getCode();
+		message = "";
+		timestamp = 0;
+	}
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
+	public HeartBeat(String service, int status, String message, long timestamp) {
+		this.service = service;
+		this.status = status;
+		this.message = message;
+		this.timestamp = timestamp;
+	}
+
+	public void collectStatus() {
+		// update heartBeat status
+		for (HeartBeat service : this.services) {
+			if (service.getStatus() > this.status)
+				this.status = service.getStatus();
+		}
+		// update message
+		if (this.status == CodeEnum.success.getCode()) {
+			this.message = "OK";
+		} else if (this.status == CodeEnum.warning.getCode()) {
+			this.message = "WARN: program has risk";
+		} else if (this.status == CodeEnum.error.getCode()) {
+			this.message = "ERROR: program is down";
+		}
+	}
+
+	public void checkStatus() {
+		long diff = new Date().getTime() - timestamp;
+		if (diff < warningTime) {
+			this.status = CodeEnum.success.getCode();
+			this.message = "OK";
+		} else if (diff < errorTime && diff >= warningTime) {
+			this.status = CodeEnum.warning.getCode();
+			this.message = "Warning: no update in " + warningTime + "s";
+		} else if (diff >= errorTime) {
+			this.status = CodeEnum.error.getCode();
+			this.message = "Error: no update in " + errorTime + "s";
+		}
+	}
+
+	public String getService() {
+		return this.service;
+	}
+
+	public void setServices(String service) {
+		this.service = service;
+	}
+
+	public List<HeartBeat> getServices() {
+		return this.services;
+	}
+
+	public void setServices(List<HeartBeat> services) {
+		this.services = services;
+	}
+
+	public int getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getMessage() {
+		return this.message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public long getTimestamp() {
+		return this.timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
 }

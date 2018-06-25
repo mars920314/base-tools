@@ -17,7 +17,7 @@ public class HeartBeatController {
 
     @RequestMapping(value="/heartbeat/getHeartBeat", method = RequestMethod.GET)
     public Object getHeartBeat() {
-        return HeartBeatService.loadHeatBeat();
+        return HeartBeatService.loadHeartBeat();
     }
 
 }

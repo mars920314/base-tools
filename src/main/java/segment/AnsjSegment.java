@@ -2,12 +2,14 @@ package segment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.ansj.app.keyword.KeyWordComputer;
 import org.ansj.app.keyword.Keyword;
+import org.ansj.domain.Result;
 import org.ansj.domain.Term;
 import org.ansj.library.UserDefineLibrary;
-import org.ansj.recognition.NatureRecognition;
 import org.ansj.splitWord.analysis.BaseAnalysis;
 import org.ansj.splitWord.analysis.IndexAnalysis;
 import org.ansj.splitWord.analysis.NlpAnalysis;
@@ -85,26 +87,28 @@ public class AnsjSegment extends BaseSegment {
      */
     @Override
 	protected List<Term> parseSentence(String content, int model) {
-		List<Term> parsedTermList = new ArrayList<Term>();
+		Result result = null;
         if (model == 0) {
-            parsedTermList = BaseAnalysis.parse(content);
+        	result = BaseAnalysis.parse(content);
         }
         else if (model == 1) {
-            parsedTermList = ToAnalysis.parse(content);
+        	result = ToAnalysis.parse(content);
         }//NLP分词，会执行全部命名实体识别和词性标注
         else if (model == 2) {
-            parsedTermList = NlpAnalysis.parse(content);
+        	result = NlpAnalysis.parse(content);
         }
         else if (model == 3) {
-            parsedTermList = IndexAnalysis.parse(content);
+        	result = IndexAnalysis.parse(content);
         }
+		List<Term> parsedTermList = StreamSupport.stream(result.spliterator(), false).collect(Collectors.toList());
         return parsedTermList;
     }
+    
     //https://github.com/NLPchina/ansj_seg/wiki/%E8%AF%8D%E6%80%A7%E6%A0%87%E6%B3%A8%E5%B7%A5%E5%85%B7%E7%B1%BB
+    @Deprecated
     public List<String> segSentence2RecognitionListByAnsj(String content, Boolean nature, int option) {
         List<String> termList = new ArrayList<String>();
         List<Term> parsedTermList = parseSentence(content, option);
-        new NatureRecognition(parsedTermList).recognition();
         try {
             for (Term term : parsedTermList) {
                 String word = null;

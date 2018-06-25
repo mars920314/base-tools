@@ -44,7 +44,7 @@ public class MyFileWriter {
 	}
 	
 	static public void writeFile(String content, String fileName) {
-		writeFile(content, fileName, true);
+		writeFile(content, fileName, false);
 	}
 
 	static public void clearFile(String fileName) {
