@@ -36,7 +36,7 @@ public class JavaMail {
         message = new MimeMessage(Session.getDefaultInstance(mailProperties, null));
 	}
 
-	public static synchronized boolean doSendHtmlEmail(String subject, String content, String[] receivers, String[] replays, File attachment) {
+	public static synchronized boolean doSendHtmlEmail(String subject, String content, String[] receivers, String[] replays, File[] attachments) {
 		try {
 			// 发件人
 			// InternetAddress from = new InternetAddress(sender_username);
@@ -69,12 +69,14 @@ public class JavaMail {
             multipart.addBodyPart(contentPart);
 
             // 添加附件的内容
-            if (attachment != null) {
-                BodyPart attachmentBodyPart = new MimeBodyPart();
-                DataSource source = new FileDataSource(attachment);
-                attachmentBodyPart.setDataHandler(new DataHandler(source));
-                attachmentBodyPart.setFileName(MimeUtility.encodeWord(attachment.getName()));
-                multipart.addBodyPart(attachmentBodyPart);
+            if(attachments!=null){
+                for (File attachment : attachments){
+                    BodyPart attachmentBodyPart = new MimeBodyPart();
+                    DataSource source = new FileDataSource(attachment);
+                    attachmentBodyPart.setDataHandler(new DataHandler(source));
+                    attachmentBodyPart.setFileName(MimeUtility.encodeWord(attachment.getName()));
+                    multipart.addBodyPart(attachmentBodyPart);
+                }
             }
             
             // 将multipart对象放到message中

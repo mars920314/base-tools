@@ -50,6 +50,20 @@ public class SetOperation {
 		return set2Complement;
 	}
 	
+	/**
+	 * return the set which is different between set1 and set2
+	 * in set1 not in set2 or in set2 not in set1
+	 * @param set1
+	 * @param set2
+	 * @return
+	 */
+	public static <T> Set<T> UnIntersection(Set<T> set1, Set<T> set2){
+		Set<T> setUnion = Union(set1, set2);
+		Set<T> setIntersection = Intersection(set1, set2);
+		Set<T> setUnIntersection = Complement(setUnion, setIntersection);
+		return setUnIntersection;
+	}
+	
 	public static <T extends Comparable<? super T>> boolean isEqual(Set<T> set1, Set<T> set2){
 		return isEqual(new ArrayList<T>(set1), new ArrayList<T>(set2));
 	}
