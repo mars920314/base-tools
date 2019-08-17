@@ -28,6 +28,28 @@ public class MultiTask {
 		}
 	}
 
+	public void run_demo(String[] args){
+		//Runnable
+		Runnable taskRunnable = new TaskRunnable(args);
+		(new Thread(taskRunnable)).start();
+		//Thread
+		Runnable taskThread = new TaskThread(args);
+		(new Thread(taskThread)).start();
+		//Callable
+		Callable<Object> taskCallable = new TaskCallable(args);
+		FutureTask<Object> task = new FutureTask<Object>(taskCallable);
+		(new Thread(task)).start();
+		try {
+			Object result = task.get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }
 
 class TaskRunnable implements Runnable {

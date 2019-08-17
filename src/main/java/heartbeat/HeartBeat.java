@@ -60,6 +60,8 @@ public class HeartBeat {
 		} else if (this.status == CodeEnum.error.getCode()) {
 			this.message = "ERROR: program is down";
 		}
+		this.timestamp = new Date().getTime();
+        this.service = "heartbeat";
 	}
 
 	public void checkStatus() {

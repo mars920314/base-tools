@@ -24,7 +24,7 @@ public abstract class BaseSegment {
 	
 	public abstract void deleteDynamicWord(String word);
 	
-	protected abstract List<?> parseSentence(String content, int model);
+	protected abstract Object parseSentence(String content, int model);
 
     /**
      * @param text

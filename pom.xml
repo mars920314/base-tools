@@ -6,12 +6,12 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
-		<slf4j.version>1.7.5</slf4j.version>
-		<logback.version>1.0.11</logback.version>
-		
-	  	<ansj.version>5.0.2</ansj.version>
+	  	<ansj.version>5.1.5</ansj.version>
 	  	<jieba.version>1.0.2</jieba.version>
 	  	<hanlp.version>portable-1.2.10</hanlp.version>
+	  	
+		<scala.version>2.11</scala.version>
+		<spark.version>2.1.0</spark.version>
 	</properties>
 	
 	<groupId>mars</groupId>
@@ -37,13 +37,13 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
+			<version>1.0.11</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<version>1.7.5</version>
 		</dependency>
 		
 		<!-- base dependencies --> 
@@ -84,19 +84,19 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>3.7</version>
+            <version>3.13</version>
         </dependency>
        
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.7</version>
+            <version>3.13</version>
         </dependency>
        
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml-schemas</artifactId>
-            <version>3.7</version>
+            <version>3.13</version>
         </dependency>
 		
 		<!-- json --> 
@@ -171,7 +171,69 @@
 			<artifactId>camel-ftp</artifactId>
 			<version>2.20.3</version>
 		</dependency>
-
+		
+		<!-- rabbit mq -->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>3.6.2</version>
+        </dependency>
+        
+        <!-- doc to pdf -->
+        <dependency>
+            <groupId>com.jacob</groupId>
+            <artifactId>jacob</artifactId>
+            <version>1.18</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/library/jacob.jar</systemPath>
+        </dependency>
+        
+        <!-- redis.clients - jedis -->
+		<dependency>
+		    <groupId>redis.clients</groupId>
+		    <artifactId>jedis</artifactId>
+		    <version>2.9.0</version>
+		</dependency>
+        
+        <!-- java call python -->
+	    <dependency>
+			<groupId>org.python</groupId>
+			<artifactId>jython-standalone</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		
+		<!-- amazonaws -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.6.8</version>
+		</dependency>
+        
+        <!-- hadoop and spark -->
+		<dependency>
+		    <groupId>org.apache.spark</groupId>
+		    <artifactId>spark-core_${scala.version}</artifactId>
+		    <version>${spark.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.spark</groupId>
+		    <artifactId>spark-streaming_${scala.version}</artifactId>
+		    <version>${spark.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.spark</groupId>
+		    <artifactId>spark-sql_${scala.version}</artifactId>
+		    <version>${spark.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.spark</groupId>
+		    <artifactId>spark-launcher_${scala.version}</artifactId>
+		    <version>2.4.2</version>
+		</dependency>
+		
 	 </dependencies>
 
     <repositories>
@@ -234,6 +296,7 @@
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
 					<encoding>${project.build.sourceEncoding}</encoding><!-- fix bug from java dynamic programming -->
+					<mainClass>heartbeat.WebApplicationHeartbeat</mainClass>
                 </configuration>   
 	            <executions>    
 	                <execution>

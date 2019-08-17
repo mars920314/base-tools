@@ -38,7 +38,7 @@ public class MyFileReaderLock {
 			isr.close();
 			fi.close();
 		} catch (Exception e) {
-			logger.info("Error: " + e.toString());
+			logger.error("Error: " + e.getMessage());
 		}
 		return propertyVal;
 	}
@@ -62,7 +62,7 @@ public class MyFileReaderLock {
 			isr.close();
 			fi.close();
 		} catch (Exception e) {
-			logger.info("Error: " + e.toString());
+			logger.error("Error: " + e.getMessage());
 		}
 		return names;
 	}

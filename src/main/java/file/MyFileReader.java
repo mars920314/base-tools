@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -34,7 +36,7 @@ public class MyFileReader {
 					Charset.forName("utf-8"));
 			schemaStr = mapping.read();
 		} catch (Exception e) {
-			logger.info("Error: " + e.toString());
+			logger.error("Error: " + e.getMessage());
 		}
 		return schemaStr;
 	}
@@ -50,9 +52,65 @@ public class MyFileReader {
 			isr.close();
 			fi.close();
 		} catch (Exception e) {
-			logger.info("Error: " + e.toString());
+			logger.error("Error: " + e.getMessage());
 		}
 		return propertyVal;
+	}
+
+	public static byte[] readFileByte(InputStream inputStream, int initialSize) throws IOException{
+		int MAX_BUFFER_SIZE = Integer.MAX_VALUE - 8;
+		int BUFFER_SIZE = 8192;
+
+	    // 预估消息大小
+		if(initialSize<0)
+			initialSize = inputStream.available();
+        int capacity = initialSize;
+        byte[] buf = new byte[capacity];
+        int nread = 0;
+        int n;
+        for (;;) {
+            // read to EOF which may read more or less than initialSize (eg: file is truncated while we are reading)
+            while ((n = inputStream.read(buf, nread, capacity - nread)) > 0)
+                nread += n;
+
+            // if last call to source.read() returned -1, we are done otherwise, try to read one more byte; if that failed we're done too
+            if (n < 0 || (n = inputStream.read()) < 0)
+                break;
+
+            // one more byte was read; need to allocate a larger buffer
+            if (capacity <= MAX_BUFFER_SIZE - capacity) {
+                capacity = Math.max(capacity << 1, BUFFER_SIZE);
+            } else {
+                if (capacity == MAX_BUFFER_SIZE)
+                    throw new OutOfMemoryError("Required array size too large");
+                capacity = MAX_BUFFER_SIZE;
+            }
+            buf = Arrays.copyOf(buf, capacity);
+            buf[nread++] = (byte)n;
+        }
+        return (capacity == nread) ? buf : Arrays.copyOf(buf, nread);
+	}
+	
+	public static byte[] readFileByte(String fileName){
+		FileInputStream inputStream = null;
+		try {
+		    inputStream = new FileInputStream(fileName);
+		    // 预估消息大小
+	        int initialSize = inputStream.available();
+	        return readFileByte(inputStream, initialSize);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+		    if (inputStream != null)
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return null;
 	}
 	
 	public static List<String> readFileList(String fileName, String encodings){
@@ -69,7 +127,7 @@ public class MyFileReader {
 			isr.close();
 			fi.close();
 		} catch (Exception e) {
-			logger.info("Error: " + e.toString());
+			logger.error("Error: " + e.getMessage());
 		}
 		return names;
 	}
@@ -86,10 +144,11 @@ public class MyFileReader {
 			br.close();
 			isr.close();
 		} catch (Exception e) {
-			logger.info("Error: " + e.toString());
+			logger.error("Error: " + e.getMessage());
 		}
 		return lines;
 	}
+	
 	/**
 	 * 读超大文件，只返回行的指针，没有全部放入内存。有三种方法：
 	 * BufferedReader 基于Buffered缓冲类
@@ -127,6 +186,7 @@ public class MyFileReader {
 		        sc.close();
 		}
 	}
+	
 	public static void readFileIterator(String fileName, String encodings) {
 		LineIterator it = null;
 		try {
@@ -143,6 +203,7 @@ public class MyFileReader {
 				LineIterator.closeQuietly(it);
 		}
 	}
+	
 	/**
 	 * 读文件夹下有超多子文件的情况，只返回文件队列的迭代器
 	 * @param foldName

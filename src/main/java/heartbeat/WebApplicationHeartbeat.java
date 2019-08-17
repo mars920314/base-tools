@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import mars.framework.WebApplicationBase;
 
 @Configuration
-@ComponentScan(basePackages={"mars.service.springboot"})
+@ComponentScan(basePackages={"com.datayes.heartbeat"})
 @EnableAutoConfiguration
 //@SpringBootApplication
 public class WebApplicationHeartbeat {

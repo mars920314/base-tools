@@ -29,7 +29,7 @@ public class MyFileWriter {
 			ofw.close();
 			fo.close();
 		} catch (Exception e) {
-			logger.info("Error: ", e);
+			logger.error("Error: ", e.getMessage());
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class MyFileWriter {
 			fw.write(content);
 			fw.close();
 		} catch (Exception e) {
-			logger.info("Error: ", e);
+			logger.error("Error: ", e.getMessage());
 		}
 	}
 	
@@ -53,7 +53,7 @@ public class MyFileWriter {
 			FileWriter fw = new FileWriter(fileName, false);
 			fw.close();
 		} catch (Exception e) {
-			logger.info("Error: ", e);
+			logger.error("Error: ", e.getMessage());
 		}
 	}
 	

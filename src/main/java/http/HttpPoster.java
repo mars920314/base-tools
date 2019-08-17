@@ -16,6 +16,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 
 public class HttpPoster extends HttpBase {
@@ -51,11 +52,23 @@ public class HttpPoster extends HttpBase {
     		encoding = default_encoding;
     	return Query(getClient(null), url, new HashMap<String, String>(), params, encoding);
     }
+    
+    public Map<String, String> crawl(String url, Map<String, String> headers, Map<String, String> params, String encoding) throws Exception {
+    	if(encoding==null)
+    		encoding = default_encoding;
+    	return Query(getClient(null), url, headers, params, encoding);
+    }
 
     public Map<String, String> crawl(String url, String siteKey, Map<String, String> params, String encoding) throws Exception {
     	if(encoding==null)
     		encoding = default_encoding;
     	return Query(getClient(siteKey), url, new HashMap<String, String>(), params, encoding);
+    }
+
+    public Map<String, String> crawl(String url, String siteKey, Map<String, String> headers, Map<String, String> params, String encoding) throws Exception {
+    	if(encoding==null)
+    		encoding = default_encoding;
+    	return Query(getClient(siteKey), url, headers, params, encoding);
     }
     
     protected Map<String, String> Query(HttpClient client, String url, String params, String encoding)  throws Exception {
@@ -63,7 +76,7 @@ public class HttpPoster extends HttpBase {
         HttpPost postMethod = new HttpPost(url);
         try {
             postMethod.setEntity(new StringEntity(params, Charset.forName(encoding)));
-            // postMethod.setHeader(new BasicHeader(Headers.CONTENT_TYPE, "application/json"));
+             postMethod.setHeader(new BasicHeader("Content-Type", "application/json"));
             
             HttpResponse res = client.execute(postMethod);
             responseMap.put(RESPONSE_STATUS_CODE_KEY, String.valueOf(res.getStatusLine().getStatusCode()));

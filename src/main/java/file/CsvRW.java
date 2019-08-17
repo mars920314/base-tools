@@ -26,7 +26,14 @@ public class CsvRW {
 		csvReader.close();
 		return list;
 	}
-	
+	/**
+	 *  
+	 * @param fileName
+	 * @param contentList
+	 * @param separator ','
+	 * @param quotechar '\0'
+	 * @throws IOException
+	 */
 	public static void writeCsv(String fileName, List<String[]> contentList, char separator, char quotechar) throws IOException {
 		CSVWriter csvWriter = new CSVWriter(new FileWriter(fileName), separator, quotechar);
 //		csvWriter.writeAll(contentList);

@@ -1,7 +1,6 @@
 package http;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 
 import org.apache.commons.io.IOUtils;

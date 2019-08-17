@@ -1,6 +1,7 @@
 package json;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -13,21 +14,25 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 public class Gsons {
-	public static Gson gson = new GsonBuilder().setDateFormat(
-		"yyyy-MM-dd'T'HH:mm:ss.SSSZ").create();
+	
+	public static Gson gson = new GsonBuilder().serializeNulls()
+			.setDateFormat("yyyy-MM-dd HH:mm:ss")
+			.create();
 	/*static Gson gson = new GsonBuilder().serializeNulls()
 			.registerTypeAdapter(Double.class, new DoubleTypeAdapter())
 			.create();*/
 	static Gson gsonPretty = new GsonBuilder().serializeNulls()
+			.setDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ")
 			.setPrettyPrinting()
 			.registerTypeAdapter(Double.class, new DoubleTypeAdapter())
 			.create();
-
 	static Gson gsonDate = new GsonBuilder().serializeNulls()
+			.setDateFormat("yyyy-MM-dd")
 			.registerTypeAdapter(Double.class, new DoubleTypeAdapter())
-			.setDateFormat("yyyy-MM-dd").create();
+			.create();
 	static Gson gsonPrettyDate = new GsonBuilder().serializeNulls()
-			.setDateFormat("yyyy-MM-dd").setPrettyPrinting()
+			.setDateFormat("yyyy-MM-dd")
+			.setPrettyPrinting()
 			.registerTypeAdapter(Double.class, new DoubleTypeAdapter())
 			.create();
 
@@ -94,8 +99,14 @@ public class Gsons {
 //			DecimalFormat format = new DecimalFormat("##0.00");
 //			String temp = format.format(d);
 			
-			JsonPrimitive pri = new JsonPrimitive(FormatUtil.scale(d, 6));
+			JsonPrimitive pri = new JsonPrimitive(scale(d, 6));
 			return pri;
+		}
+
+		public Double scale(Double d, int size) {
+			BigDecimal b = new BigDecimal(d);
+			d = b.setScale(size, BigDecimal.ROUND_HALF_UP).doubleValue();
+			return d;
 		}
 
 	}

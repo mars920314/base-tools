@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import thread.BaseCache;
+import thread.ScheduleCacheBase;
 
-public class MyFilePropertiesController extends BaseCache {
+public class MyFilePropertiesController extends ScheduleCacheBase {
 
 	private final static long recycle = 60000L;
 	private Map<String, Properties> dbPropertyMap = new HashMap<String, Properties>();
