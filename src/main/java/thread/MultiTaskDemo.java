@@ -5,30 +5,17 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-public class MultiTask {
+/**
+ * 多线程任务的几种实现方式
+ * PackageName: thread
+ * Description:
+ * author: lingjun.gao
+ * email: Lingjun.gao@datayes.com
+ * date: 2018年12月18日
+ */
+public class MultiTaskDemo {
 
 	public void run(String[] args){
-		Runnable taskRunnable = new TaskRunnable(args);
-		(new Thread(taskRunnable)).start();
-		
-		Runnable taskThread = new TaskThread(args);
-		(new Thread(taskThread)).start();
-		
-		Callable<Object> taskCallable = new TaskCallable(args);
-		FutureTask<Object> task = new FutureTask<Object>(taskCallable);
-		(new Thread(task)).start();
-		try {
-			Object result = task.get();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void run_demo(String[] args){
 		//Runnable
 		Runnable taskRunnable = new TaskRunnable(args);
 		(new Thread(taskRunnable)).start();
