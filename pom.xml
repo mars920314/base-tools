@@ -15,8 +15,8 @@
 	</properties>
 	
 	<groupId>mars</groupId>
+	<artifactId>base-tools</artifactId>
 	<version>0.1.0</version>
-	<artifactId>puma-base-tools</artifactId>
 	
 	 <dependencies>
 	 
